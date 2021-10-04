@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# File Manager to launch by dwm key
+
+pcmanfm
+# thunar

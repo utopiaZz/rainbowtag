@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Lock screen program to use for dwm
+
+#slock
+ betterlockscreen --lock
+# i3lock
+#./.config/i3/bin/i3lock

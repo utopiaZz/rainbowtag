@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Text Editor to launch by dwm editor key
+
+leafpad
+# geany

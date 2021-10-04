@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Alternate Terminal to launch by dwm terminal key
+
+alacritty --config-file /usr/share/archcraft-dwm/alacritty/alacritty.yml
+# xfce4-terminal
