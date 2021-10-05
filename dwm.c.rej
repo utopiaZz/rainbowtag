@@ -1,11 +1,54 @@
 --- dwm.c
 +++ dwm.c
-@@ -708,7 +710,7 @@ drawbar(Monitor *m)
- 	if (m == selmon) { /* status is only drawn on selected monitor */
- 		drw_setscheme(drw, scheme[SchemeNorm]);
- 		tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
--		drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
-+		drw_text(drw, m->ww - tw - 2 * sp, 0, tw, bh, 0, stext, 0);
- 	}
+@@ -112,27 +113,6 @@ typedef struct {
+ 	void (*arrange)(Monitor *);
+ } Layout;
  
- 	for (c = m->clients; c; c = c->next) {
+-struct Monitor {
+-	char ltsymbol[16];
+-	float mfact;
+-	int nmaster;
+-	int num;
+-	int by;               /* bar geometry */
+-	int mx, my, mw, mh;   /* screen size */
+-	int wx, wy, ww, wh;   /* window area  */
+-	unsigned int seltags;
+-	unsigned int sellt;
+-	unsigned int tagset[2];
+-	int showbar;
+-	int topbar;
+-	Client *clients;
+-	Client *sel;
+-	Client *stack;
+-	Monitor *next;
+-	Window barwin;
+-	const Layout *lt[2];
+-};
+-
+ typedef struct {
+ 	const char *class;
+ 	const char *instance;
+@@ -1635,6 +1676,7 @@ setup(void)
+ 	/* init bars */
+ 	updatebars();
+ 	updatestatus();
++	updatepreview();
+ 	/* supporting window for NetWMCheck */
+ 	wmcheckwin = XCreateSimpleWindow(dpy, root, 0, 0, 1, 1, 0, 0, 0);
+ 	XChangeProperty(dpy, wmcheckwin, netatom[NetWMCheck], XA_WINDOW, 32,
+@@ -1851,6 +1942,7 @@ toggleview(const Arg *arg)
+ 	unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
+ 
+ 	if (newtagset) {
++		switchtag();
+ 		selmon->tagset[selmon->seltags] = newtagset;
+ 		focus(NULL);
+ 		arrange(selmon);
+@@ -2168,6 +2280,7 @@ view(const Arg *arg)
+ {
+ 	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
+ 		return;
++	switchtag();
+ 	selmon->seltags ^= 1; /* toggle sel tagset */
+ 	if (arg->ui & TAGMASK)
+ 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
