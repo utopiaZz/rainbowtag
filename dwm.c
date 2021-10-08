@@ -2695,6 +2695,7 @@ xerrordummy(Display *dpy, XErrorEvent *ee)
 	return 0;
 }
 
+
 /* Startup Error handler to check if another window manager
  * is already running. */
 int
